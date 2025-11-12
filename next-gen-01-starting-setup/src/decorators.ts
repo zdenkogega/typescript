@@ -19,12 +19,23 @@ function autobind(target: (...args: any[]) => any, ctx: ClassMethodDecoratorCont
 
     return function(this: any) {
         console.log('Executing original function');
-        target.apply(this);
+        target(this);
+    }
+}
+
+function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext) {
+    console.log(target);
+    console.log(ctx);
+
+    return (initialValue: any) => {
+        console.log(initialValue);
+        return '';
     }
 }
 
 @logger
 class Person {
+    @fieldLogger
     name = 'Max';
 
     constructor() {
